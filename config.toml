@@ -1,0 +1,20 @@
+[DEBUG_CONFIG]
+DEBUG_MODE = false
+APISERV_ENABLE = true
+
+[LOGGER]
+LOGFILE_FORMAT = "yyyyMMDD"  # 示例: 20240424
+LOGTIME_FORMAT = "yyyy-MM-DD HH:mm:ss"  # 示例: 2024-04-24 09:52:18
+
+[SESSION]
+SESS_MAXAGE = 86400  # 单位是秒
+SESS_SECRET = "Pyrogallol"
+SESS_NAME = "PicBank"
+
+[SERV_CONFIG]  # 后端api
+SERV_HOSTNAME = "0.0.0.0"
+SERV_PORT = 1145
+
+[DATA_CONFIG]
+IMAGE_QUALITY = 100  # 图片输出质量
+IMAGE_WIDTH = 0  # 图片输出宽度(0为不修改)
