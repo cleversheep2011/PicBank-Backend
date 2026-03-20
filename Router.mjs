@@ -89,7 +89,7 @@ app.get("/api/user/login", async (req, res) => {
         attributes: ['uuid'],
     });
     if (!user) {
-        response(req, res, 400, {status: "INVALID_CREDENTIALS"});
+        response(req, res, 401, {status: "INVALID_CREDENTIALS"});
         return;
     }
 
@@ -98,42 +98,23 @@ app.get("/api/user/login", async (req, res) => {
         "message": "成功", "uuid": user.uuid
     })
 });
-// // 用户注销
-// app.get("/api/user/logout", async (req, res) => {
-//     if (!func.logon(req).isLoggedIn) {
-//         response(req, res, 403, {"message": "未登录"});
-//         return;
-//     }
-//     func.logout(req);
-//     response(req, res, 200, {"message": "成功"})
-// });
-// // 用户删除
-// app.post("/api/user/del", async (req, res) => {
-//     if (!func.logon(req).isLoggedIn) {
-//         response(req, res, 403, {"message": "未登录"});
-//         return;
-//     }
-//     let requirement = ["user_uuid"]
-//     if (!func.parmasDetect(req.body, requirement)) {
-//         response(req, res, 400, {"message": "请求参数不正确"});
-//         return;
-//     }
-//     const {user_uuid} = req.body;
-//     const count = await query(sqlconn, [user_uuid], "SELECT COUNT(*) AS count FROM user_info WHERE user_uuid = ?");
-//     if (!count[0]["count"]) {
-//         response(req, res, 400, {"message": "目标用户不存在"});
-//         return;
-//     }
-//     await query(sqlconn, [user_uuid], "DELETE FROM user_info WHERE user_uuid = ?;");
-//     if (user_uuid === func.logon(req).user_uuid) {
-//         func.logout(req);
-//     }
-//     response(req, res, 200, {"message": "成功"});
-// });
-// // 获得用户登陆状态
-// app.get("/api/user/check", async (req, res) => {
-//     response(req, res, 200, {"status": func.logon(req).isLoggedIn});
-// });
+// 用户注销
+app.post("/api/user/logout", async (req, res) => {
+    if (!func.logon(req).isLoggedIn) {
+        response(req, res, 401, {status: "INVALID_CREDENTIALS"});
+        return;
+    }
+    func.logout(req);
+    response(req, res, 200, {status: "SUCCESS"})
+});
+
+// 获得用户登陆状态
+app.get("/api/user/check", async (req, res) => {
+    response(req, res, 200, {
+        status: "SUCCESS",
+        isLogin: func.logon(req).isLoggedIn
+    });
+});
 /* END OF 用户管理 */
 
 export default app;
